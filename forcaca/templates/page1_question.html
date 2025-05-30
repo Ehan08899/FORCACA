@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}Pertanyaan Untuk Kamu{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1 class="romantic-title">
+        Udah siap buat kejang kejang karna Alay byum? HAHAHAH
+    </h1>
+    
+    <div class="message">
+        <p>Udah baca permintaan maafku kan sayang? Gimana nih... 💕</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('page1_answer') }}" id="questionForm">
+        <div style="margin: 30px 0;">
+            <button type="button" class="btn" id="iyaBtn" onclick="submitAnswer('iya')" style="margin: 10px; min-width: 150px;">
+                <i class="fas fa-heart"></i> Iya, Maafin!
+            </button>
+            
+            <button type="button" class="btn" id="gamauBtn" onclick="moveButton()" style="margin: 10px; min-width: 150px; background: linear-gradient(45deg, #ccc, #999);">
+                <i class="fas fa-times"></i> Ga Mau
+            </button>
+        </div>
+        
+        <input type="hidden" name="answer" id="answerInput">
+    </form>
+
+    <div class="message" style="margin-top: 30px;">
+        <small style="color: #999;">Please sayang... 🥺💕</small>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let moveCount = 0;
+    const positions = [
+        { top: '20px', left: '20px' },
+        { top: '20px', right: '20px' },
+        { bottom: '20px', right: '20px' },
+        { bottom: '20px', left: '20px' },
+        { top: '50%', left: '10px' },
+        { top: '50%', right: '10px' },
+        { top: '10px', left: '50%' },
+        { bottom: '10px', left: '50%' }
+    ];
+
+    function moveButton() {
+        const btn = document.getElementById('gamauBtn');
+        const position = positions[moveCount % positions.length];
+        
+        btn.style.position = 'fixed';
+        btn.style.transition = 'all 0.3s ease';
+        btn.style.zIndex = '1000';
+        
+        Object.keys(position).forEach(key => {
+            btn.style[key] = position[key];
+        });
+        
+        // Reset posisi yang tidak digunakan
+        if (!position.top) btn.style.top = 'auto';
+        if (!position.bottom) btn.style.bottom = 'auto';
+        if (!position.left) btn.style.left = 'auto';
+        if (!position.right) btn.style.right = 'auto';
+        
+        moveCount++;
+        
+        // Animasi shake
+        btn.style.animation = 'shake 0.5s ease-in-out';
+        setTimeout(() => {
+            btn.style.animation = '';
+        }, 500);
+        
+        // Pesan yang berubah-ubah
+        const messages = [
+            "Ayolah sayang, maafin dong... 🥺",
+            "Jangan gitu dong, aku udah minta maaf loh! 😢",
+            "Please banget sayang... 💔",
+            "Aku udah janji gak bakal ulangi lagi! 🙏",
+            "Maafin aku ya please... 😭",
+            "Sayang, jangan keras hati dong! 💕",
+            "Udah capek kan? Maafin aja deh! 😊"
+        ];
+        
+        const messageDiv = document.querySelector('.message p');
+        if (moveCount <= messages.length) {
+            messageDiv.innerHTML = messages[moveCount - 1];
+        }
+    }
+
+    function submitAnswer(answer) {
+        document.getElementById('answerInput').value = answer;
+        document.getElementById('questionForm').submit();
+    }
+
+    // Tambahkan CSS untuk animasi shake
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        #iyaBtn:hover {
+            background: linear-gradient(45deg, #ff6b9d, #c44569) !important;
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Efek hover untuk tombol "Iya"
+    document.getElementById('iyaBtn').addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.1)';
+        this.style.boxShadow = '0 8px 25px rgba(255, 107, 157, 0.4)';
+    });
+
+    document.getElementById('iyaBtn').addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = '0 4px 15px rgba(0,0,0,0.2)';
+    });
+</script>
+{% endblock %}

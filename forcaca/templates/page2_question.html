@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Pertanyaan Untuk Kamu{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1 class="romantic-title">
+        Gimana bub? udah kejang kejang karna alay byum? wkwkwkw 💭💕
+    </h1>
+    
+    <div class="message">
+        <p>Masih inget kan foto foto itu? 😊</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('page2_answer') }}" id="questionForm">
+        <div style="margin: 30px 0;">
+            <button type="button" class="btn" id="selalu" onclick="submitAnswer('selalu')" style="margin: 10px; min-width: 200px;">
+                <i class="fas fa-heart"></i> Selalu Inget Kok!
+            </button>
+            
+            <button type="button" class="btn" id="mungkinLupa" onclick="moveButton()" style="margin: 10px; min-width: 200px; background: linear-gradient(45deg, #ccc, #999);">
+                <i class="fas fa-question"></i> Mungkin Lupa
+            </button>
+        </div>
+        
+        <input type="hidden" name="answer" id="answerInput">
+    </form>
+
+    <div class="message" style="margin-top: 30px;">
+        <small style="color: #999;">Jujur aja ya sayang... 💖</small>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let moveCount = 0;
+    const positions = [
+        { top: '20px', left: '20px' },
+        { top: '20px', right: '20px' },
+        { bottom: '20px', right: '20px' },
+        { bottom: '20px', left: '20px' },
+        { top: '50%', left: '10px' },
+        { top: '50%', right: '10px' },
+        { top: '10px', left: '50%' },
+        { bottom: '10px', left: '50%' }
+    ];
+
+    function moveButton() {
+        const btn = document.getElementById('mungkinLupa');
+        const position = positions[moveCount % positions.length];
+        
+        btn.style.position = 'fixed';
+        btn.style.transition = 'all 0.3s ease';
+        btn.style.zIndex = '1000';
+        
+        Object.keys(position).forEach(key => {
+            btn.style[key] = position[key];
+        });
+        
+        if (!position.top) btn.style.top = 'auto';
+        if (!position.bottom) btn.style.bottom = 'auto';
+        if (!position.left) btn.style.left = 'auto';
+        if (!position.right) btn.style.right = 'auto';
+        
+        moveCount++;
+        
+        btn.style.animation = 'shake 0.5s ease-in-out';
+        setTimeout(() => {
+            btn.style.animation = '';
+        }, 500);
+        
+        const messages = [
+            "Masa sih bakal lupa moment indah kita? 🥺",
+            "Hayoloh, jangan bilang bakal lupa dong! 😢",
+            "Moment kita kan indah-indah, masa lupa? 💔",
+            "Aku yakin kamu pasti selalu inget kok! 😊",
+            "Jangan lupa ya sayang, moment kita berharga! 💕",
+            "Pasti inget kan? Kan udah kita laluin bareng! ❤️",
+            "Udah pegel belum? Jawab yang jujur aja! 😂"
+        ];
+        
+        const messageDiv = document.querySelector('.message p');
+        if (moveCount <= messages.length) {
+            messageDiv.innerHTML = messages[moveCount - 1];
+        }
+    }
+
+    function submitAnswer(answer) {
+        document.getElementById('answerInput').value = answer;
+        document.getElementById('questionForm').submit();
+    }
+
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    document.getElementById('selalu').addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.1)';
+        this.innerHTML = '<i class="fas fa-heart"></i> Pasti Selalu Inget! 💕';
+    });
+
+    document.getElementById('selalu').addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+        this.innerHTML = '<i class="fas fa-heart"></i> Selalu Inget Kok!';
+    });
+</script>
+{% endblock %}

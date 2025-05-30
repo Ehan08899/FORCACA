@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Maaf Sayang{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 700px;">
+    <h1 class="romantic-title">
+        For U bybubb 💔
+    </h1>
+    
+    <div class="message" style="text-align: left; font-size: 16px; line-height: 1.8; color: #555;">
+        <div style="background: linear-gradient(135deg, rgba(255, 182, 193, 0.1), rgba(255, 255, 255, 0.1)); padding: 25px; border-radius: 15px; margin: 20px 0; border-left: 4px solid #FF6B6B;">
+            <p style="margin-bottom: 15px;">
+                <strong>Sayang,</strong> aku tahu aku sering bikin kamu bete dan kesel. Maaf ya kalau aku sering egois dan gak mikirin perasaan kamu. 😔
+            </p>
+            
+            <p style="margin-bottom: 15px;">
+                Aku sadar aku masih banyak salah dan kurang perhatian sama kamu. Padahal kamu udah sabar banget sama tingkah aku yang kadang menyebalkan. 
+            </p>
+            
+            <p style="margin-bottom: 15px;">
+                <i class="fas fa-heart" style="color: #FF6B6B;"></i> <strong>Tapi tau gak sih?</strong> Sebentar lagi tanggal 4, hubungan kita bakal nyentuh 9 bulan loh! Waktu yang udah kita laluin bareng itu gak sedikit sayang...
+            </p>
+            
+            <p style="margin-bottom: 15px;">
+                Dalam 9 bulan ini, kamu udah ngajarin aku banyak hal. Ngajarin aku gimana caranya sayang sama orang, gimana caranya jadi pasangan yang baik, dan yang paling penting... ngajarin aku gimana caranya bahagia. 💕
+            </p>
+            
+            <p style="margin-bottom: 15px;">
+                <strong>Aku berjanji</strong> bakal lebih perhatian, lebih pengertian, dan gak bakal bikin kamu sedih lagi. Karena kamu itu yang terpenting dalam hidup aku sekarang. ❤️
+            </p>
+            
+            <p style="text-align: center; font-style: italic; color: #8B4CB8; font-size: 18px; margin-top: 20px;">
+                "Maaf kalau aku belum jadi yang terbaik untuk kamu, tapi aku janji akan terus belajar jadi yang terbaik buat kamu sayang..." 💖
+            </p>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{{ url_for('page1_question') }}" class="btn" style="font-size: 18px; padding: 18px 35px;">
+            <i class="fas fa-arrow-right"></i> Lanjut Sayang
+        </a>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <small style="color: #999;">Halaman 1 dari 3 💕</small>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add typing effect for romantic feel
+    const messages = document.querySelectorAll('.message p');
+    messages.forEach((msg, index) => {
+        msg.style.opacity = '0';
+        msg.style.animation = `fadeInUp 0.8s ease-out ${index * 0.3}s forwards`;
+    });
+
+    // Add fadeInUp animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+</script>
+{% endblock %}

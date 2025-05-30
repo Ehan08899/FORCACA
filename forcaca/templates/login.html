@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Masuk Dulu Sayang{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1 class="romantic-title">
+        <i class="fas fa-lock" style="color: #FF6B6B;"></i>
+        Hanya Untuk Kamu
+    </h1>
+    
+    <div class="message">
+        <p>Website ini khusus dibuat untuk seseorang yang spesial... 💕</p>
+        <p>Masukkan password untuk melanjutkan sayang!</p>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error">
+                    <i class="fas fa-heart-broken"></i> {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('login') }}">
+        <div class="input-group">
+            <label for="password"><i class="fas fa-key"></i> Password:</label>
+            <input type="password" id="password" name="password" placeholder="Masukkan password..." required>
+        </div>
+        
+        <button type="submit" class="btn">
+            <i class="fas fa-heart"></i> Masuk
+        </button>
+    </form>
+
+    <div class="message" style="margin-top: 30px;">
+        <small style="color: #999;">Dibuat dengan 💖 khusus untuk kamu</small>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add some sparkle effect on input focus
+    document.getElementById('password').addEventListener('focus', function() {
+        this.style.background = 'linear-gradient(45deg, rgba(255, 182, 193, 0.1), rgba(255, 255, 255, 0.9))';
+    });
+    
+    document.getElementById('password').addEventListener('blur', function() {
+        this.style.background = 'rgba(255, 255, 255, 0.9)';
+    });
+</script>
+{% endblock %}

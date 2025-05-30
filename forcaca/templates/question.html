@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}Pertanyaan Untuk Kamu{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h1 class="romantic-title">
+        Seberapa Sayang Kamu Sama Rayhan? 💕
+    </h1>
+    
+    <div class="message">
+        <p>Jawab dengan jujur ya sayang... 😊</p>
+    </div>
+
+    <form method="POST" action="{{ url_for('answer') }}" id="questionForm">
+        <div style="margin: 30px 0;">
+            <button type="button" class="btn" id="sayangBtn" onclick="submitAnswer('sayang')" style="margin: 10px; min-width: 150px;">
+                <i class="fas fa-heart"></i> Sayang Banget!
+            </button>
+            
+            <button type="button" class="btn" id="engGakBtn" onclick="moveButton()" style="margin: 10px; min-width: 150px; background: linear-gradient(45deg, #ccc, #999);">
+                <i class="fas fa-heart-broken"></i> Enggak
+            </button>
+        </div>
+        
+        <input type="hidden" name="answer" id="answerInput">
+    </form>
+
+    <div class="message" style="margin-top: 30px;">
+        <small style="color: #999;">Pilih dengan hati nurani ya! 💖</small>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    let moveCount = 0;
+    const positions = [
+        { top: '20px', left: '20px' },
+        { top: '20px', right: '20px' },
+        { bottom: '20px', right: '20px' },
+        { bottom: '20px', left: '20px' },
+        { top: '50%', left: '10px' },
+        { top: '50%', right: '10px' },
+        { top: '10px', left: '50%' },
+        { bottom: '10px', left: '50%' }
+    ];
+
+    function moveButton() {
+        const btn = document.getElementById('engGakBtn');
+        const position = positions[moveCount % positions.length];
+        
+        btn.style.position = 'fixed';
+        btn.style.transition = 'all 0.3s ease';
+        btn.style.zIndex = '1000';
+        
+        // Apply position
+        Object.keys(position).forEach(key => {
+            btn.style[key] = position[key];
+        });
+        
+        // Reset other positions
+        if (!position.top) btn.style.top = 'auto';
+        if (!position.bottom) btn.style.bottom = 'auto';
+        if (!position.left) btn.style.left = 'auto';
+        if (!position.right) btn.style.right = 'auto';
+        
+        moveCount++;
+        
+        // Add shake effect
+        btn.style.animation = 'shake 0.5s ease-in-out';
+        setTimeout(() => {
+            btn.style.animation = '';
+        }, 500);
+        
+        // Show funny messages
+        const messages = [
+            "Hayoloh, jangan bohong! 😏",
+            "Kok gak mau ngaku sih? 🤔",
+            "Udah tau jawabannya kan? 😘",
+            "Jangan keras kepala dong! 💕",
+            "Pasti sayang kan sebenernya? 😊",
+            "Ayo ngaku aja deh! ❤️",
+            "Udah capek belum ngejar tombolnya? 😂"
+        ];
+        
+        const messageDiv = document.querySelector('.message p');
+        if (moveCount <= messages.length) {
+            messageDiv.innerHTML = messages[moveCount - 1];
+        }
+    }
+
+    function submitAnswer(answer) {
+        document.getElementById('answerInput').value = answer;
+        document.getElementById('questionForm').submit();
+    }
+
+    // Add shake animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Add hover effect for sayang button
+    document.getElementById('sayangBtn').addEventListener('mouseenter', function() {
+        this.style.transform = 'scale(1.1)';
+        this.innerHTML = '<i class="fas fa-heart"></i> Iya dong sayang! 💕';
+    });
+
+    document.getElementById('sayangBtn').addEventListener('mouseleave', function() {
+        this.style.transform = 'scale(1)';
+        this.innerHTML = '<i class="fas fa-heart"></i> Sayang Banget!';
+    });
+</script>
+{% endblock %}
